@@ -18,6 +18,28 @@ class Cora::Plugin
 
   end
 
+  def process(text)
+    listeners.each do |regex, entry|
+      if text =~ regex
+        log "Matches #{regex}"
+
+        if entry[:within_state]
+          log "Applicable states: #{entry[:within_state].join(', ')}"
+          log "Current state: #{current_state}"
+
+          if entry[:within_state].include?(current_state)
+            log "Matches, executing block"
+            instance_exec(&entry[:block])
+
+            return true
+          end
+        end
+      end
+
+    end
+    false
+  end
+
   def listeners
     self.class.listeners
   end

@@ -14,26 +14,7 @@ class Cora
 
     plugins.each do |plugin|
       log "Processing plugin #{plugin}"
-      plugin.listeners.each do |regex, entry|
-
-        if text =~ regex
-          log "Matches #{regex}"
-
-          if entry[:within_state]
-            log "Applicable states: #{entry[:within_state].join(', ')}"
-            log "Current state: #{plugin.current_state}"
-
-            if entry[:within_state].include?(plugin.current_state)
-              log "Matches, executing block"
-              plugin.instance_exec(&entry[:block])
-
-              log "Bailing from process loop"
-              return
-            end
-          end
-        end
-
-      end
+      return if plugin.process(text)
     end
 
     log "No matches for '#{text}'"
