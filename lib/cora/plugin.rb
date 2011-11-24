@@ -6,20 +6,20 @@ class Cora::Plugin
   class << self
 
     def listen_for(regex, options = {}, &block)
-      default_listeners[regex] = {
+      listeners[regex] = {
         block: block,
         within_state: ([options[:within_state]].flatten)
       }
     end
 
-    def default_listeners
-      @default_listeners ||= {}
+    def listeners
+      @listeners ||= {}
     end
 
   end
 
-  def default_listeners
-    self.class.default_listeners
+  def listeners
+    self.class.listeners
   end
 
   def say(text)

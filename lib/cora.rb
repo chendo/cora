@@ -14,7 +14,7 @@ class Cora
 
     plugins.each do |plugin|
       log "Processing plugin #{plugin}"
-      plugin.default_listeners.each do |regex, entry|
+      plugin.listeners.each do |regex, entry|
 
         if text =~ regex
           log "Matches #{regex}"
