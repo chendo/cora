@@ -43,6 +43,13 @@ describe Cora do
 
         subject.process("bar")
       end
+
+      it "responds when in the correct state" do
+        subject.process("foo")
+
+        subject.should_receive(:respond).with("bar get")
+        subject.process("bar")
+      end
     end
 
   end
