@@ -16,7 +16,6 @@ describe Cora do
     end
 
     it "responds to a simple test hook" do
-      subject.plugins << TestPlugin
       subject.process("this is a test")
 
       subject.should_receive(:respond).with("test!")
