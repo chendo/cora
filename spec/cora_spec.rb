@@ -14,6 +14,11 @@ describe Cora do
         set_state :waiting_for_bar
       end
 
+      listen_for /send message/ do
+        receipent = ask "Who should I send it to?"
+        say "Sending message to #{receipent}"
+      end
+
       listen_for /bar/, within_state: :waiting_for_bar do
         say "bar get"
       end
@@ -84,6 +89,21 @@ describe Cora do
         subject.should_receive(:respond).with("bar get")
         subject.process("bar")
       end
+    end
+
+    context "asking" do
+      # Now this is interesting. On further thought, we can't do
+      # answer = ask("What is your name?")
+      # since we need to relinquish the CPU somehow. Either we use blocks,
+      # but since we're on 1.9, we can use Fibers. I think?
+
+      it "gets input from the user and uses it intelligently" do
+        subject.should_receive(:respond).with("Who should I send it to?")
+        subject.process("send message")
+        subject.should_receive(:respond).with("Sending message to chendo")
+        subject.process("chendo")
+      end
+
     end
 
   end

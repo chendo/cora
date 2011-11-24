@@ -11,6 +11,12 @@ class Cora
   def process(text)
     log "Processing '#{text}'"
 
+    if @callback
+      log "Active callback found, resuming"
+      @callback.call(text)
+      @callback = nil
+      return true
+    end
 
     plugins.each do |plugin|
       log "Processing plugin #{plugin}"
@@ -30,6 +36,14 @@ class Cora
   def set_priority_plugin(plugin)
     plugins.delete(plugin)
     plugins.unshift(plugin)
+  end
+
+  def set_callback(&block)
+    @callback = block
+  end
+
+  def set_active_fiber(fiber)
+    @fiber = fiber
   end
 
   def log(text)

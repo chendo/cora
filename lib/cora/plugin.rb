@@ -1,3 +1,4 @@
+require 'fiber'
 class Cora::Plugin
 
   attr_accessor :manager
@@ -29,8 +30,10 @@ class Cora::Plugin
 
           if entry[:within_state].include?(current_state)
             log "Matches, executing block"
-            instance_exec(&entry[:block])
 
+            Fiber.new {
+              instance_exec(&entry[:block])
+            }.resume
             return true
           end
         end
@@ -47,6 +50,18 @@ class Cora::Plugin
   def say(text)
     log "Say: #{text}"
     manager.respond(text)
+  end
+
+  def ask(question)
+    log "Ask: #{question}"
+
+    f = Fiber.current
+    manager.respond(question)
+    manager.set_callback do |text|
+      f.resume(text)
+    end
+
+    Fiber.yield
   end
 
   def set_state(state)
