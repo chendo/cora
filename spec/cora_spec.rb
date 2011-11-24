@@ -52,5 +52,39 @@ describe Cora do
       end
     end
 
+    context "multiple plugins" do
+      class TestPlugin2 < Cora::Plugin
+
+        listen_for /test/ do
+          say "test2"
+        end
+
+        listen_for /bar/ do
+          say "bad bar"
+        end
+
+      end
+
+      before do
+        subject.plugins << TestPlugin2.new.tap { |plugin| plugin.manager = subject}
+      end
+
+      it "processes the plugins in order" do
+        subject.should_receive(:respond).with("test!")
+        subject.process("test")
+
+        subject.plugins.reverse!
+        subject.should_receive(:respond).with("test2")
+        subject.process("test")
+      end
+
+      it "when state is set, cora should ignore other plugins" do
+        subject.plugins.reverse! # So TestPlugin2's bar is checked first
+        subject.process("foo")
+        subject.should_receive(:respond).with("bar get")
+        subject.process("bar")
+      end
+    end
+
   end
 end

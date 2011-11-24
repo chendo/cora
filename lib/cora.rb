@@ -2,6 +2,7 @@ require "cora/version"
 require "cora/plugin"
 
 class Cora
+  attr_accessor :active_plugin
 
   def plugins
     @plugins ||= []
@@ -9,6 +10,8 @@ class Cora
 
   def process(text)
     log "Processing '#{text}'"
+
+
     plugins.each do |plugin|
       log "Processing plugin #{plugin}"
       plugin.default_listeners.each do |regex, entry|
@@ -41,7 +44,11 @@ class Cora
   end
 
   def no_matches
+  end
 
+  def set_priority_plugin(plugin)
+    plugins.delete(plugin)
+    plugins.unshift(plugin)
   end
 
   def log(text)

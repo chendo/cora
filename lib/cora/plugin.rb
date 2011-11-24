@@ -29,6 +29,7 @@ class Cora::Plugin
 
   def set_state(state)
     @current_state = state
+    manager.set_priority_plugin(self)
   end
 
   def log(*args)
