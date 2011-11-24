@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "cora"
 
   s.add_development_dependency "rspec"
+  s.add_development_dependency "guard-rspec"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
