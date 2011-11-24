@@ -1,5 +1,6 @@
 require "cora/version"
+require "cora/plugin"
 
-module Cora
+class Cora
   # Your code goes here...
 end

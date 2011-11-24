@@ -1,3 +1,3 @@
-module Cora
+class Cora
   VERSION = "0.0.1"
 end

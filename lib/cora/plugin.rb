@@ -1,0 +1,3 @@
+class Cora::Plugin
+
+end
