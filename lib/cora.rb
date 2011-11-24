@@ -2,7 +2,6 @@ require "cora/version"
 require "cora/plugin"
 
 class Cora
-  attr_accessor :active_plugin
 
   def plugins
     @plugins ||= []
