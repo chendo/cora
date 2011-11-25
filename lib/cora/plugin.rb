@@ -21,7 +21,7 @@ class Cora::Plugin
 
   def process(text)
     listeners.each do |regex, entry|
-      if text =~ regex
+      if ((matches = regex.match(text)) != nil)
         log "Matches #{regex}"
 
         if entry[:within_state]
@@ -32,7 +32,7 @@ class Cora::Plugin
             log "Matches, executing block"
 
             Fiber.new {
-              instance_exec(&entry[:block])
+              instance_exec(matches, &entry[:block])
             }.resume
             return true
           end
