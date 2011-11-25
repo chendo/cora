@@ -26,7 +26,7 @@ class Cora
     no_matches
   end
 
-  def respond(text, prompt_for_response=false)
+  def respond(text, options = {})
   end
 
   def no_matches
