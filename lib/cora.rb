@@ -19,7 +19,7 @@ class Cora
 
     plugins.each do |plugin|
       log "Processing plugin #{plugin}"
-      return if plugin.process(text)
+      return true if plugin.process(text)
     end
 
     log "No matches for '#{text}'"
