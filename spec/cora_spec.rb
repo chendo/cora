@@ -23,6 +23,10 @@ describe Cora do
         say "bar get"
       end
 
+      listen_for /my name is (\w+) (\w+)/i do |first_name, last_name|
+        say "Nice to meet you, #{first_name} #{last_name}"
+      end
+
     end
 
     let(:plugin) do
@@ -106,5 +110,11 @@ describe Cora do
 
     end
 
+    context "captures" do
+      it "passes the captures to the block" do
+        subject.should_receive(:respond).with("Nice to meet you, Jackie Chan")
+        subject.process("my name is Jackie Chan")
+      end
+    end
   end
 end
