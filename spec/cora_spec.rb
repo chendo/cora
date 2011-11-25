@@ -9,7 +9,7 @@ describe Cora do
         say "test!"
       end
 
-      listen_for /foo/ do
+      listen_for /^foo$/ do
         say "foo"
         set_state :waiting_for_bar
       end
@@ -27,6 +27,9 @@ describe Cora do
         say "Nice to meet you, #{first_name} #{last_name}"
       end
 
+      listen_for /only repeat this/i do
+        say "#{match_data}"
+      end
     end
 
     let(:plugin) do
@@ -114,6 +117,11 @@ describe Cora do
       it "passes the captures to the block" do
         subject.should_receive(:respond).with("Nice to meet you, Jackie Chan")
         subject.process("my name is Jackie Chan")
+      end
+
+      it "lets you access the match_data for dynamic capture count" do
+        subject.should_receive(:respond).with("only repeat this")
+        subject.process("only repeat this, not this")
       end
     end
   end

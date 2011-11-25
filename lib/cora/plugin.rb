@@ -1,7 +1,7 @@
 require 'fiber'
 class Cora::Plugin
 
-  attr_accessor :manager
+  attr_accessor :manager, :match_data
   attr_reader :current_state
 
   class << self
@@ -32,6 +32,7 @@ class Cora::Plugin
           if entry[:within_state].include?(current_state)
             log "Matches, executing block"
 
+            self.match_data = match
             Fiber.new {
               instance_exec(*captures, &entry[:block])
             }.resume
