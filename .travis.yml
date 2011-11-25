@@ -2,7 +2,6 @@ rvm:
   - 1.9.2
   - 1.9.3
   - ruby-head
-  - rbx
 
 notifications:
   irc: "irc.freenode.org#siriproxy"
