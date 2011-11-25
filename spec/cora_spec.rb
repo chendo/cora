@@ -98,7 +98,7 @@ describe Cora do
       # but since we're on 1.9, we can use Fibers. I think?
 
       it "gets input from the user and uses it intelligently" do
-        subject.should_receive(:respond).with("Who should I send it to?")
+        subject.should_receive(:respond).with("Who should I send it to?", prompt_for_response: true)
         subject.process("send message")
         subject.should_receive(:respond).with("Sending message to chendo")
         subject.process("chendo")
