@@ -56,7 +56,7 @@ class Cora::Plugin
     log "Ask: #{question}"
 
     f = Fiber.current
-    manager.respond(question)
+    manager.respond(question, true)
     manager.set_callback do |text|
       f.resume(text)
     end
