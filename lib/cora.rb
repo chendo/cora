@@ -12,8 +12,9 @@ class Cora
 
     if @callback
       log "Active callback found, resuming"
-      @callback.call(text)
+      callback = @callback
       @callback = nil
+      callback.call(text)
       return true
     end
 

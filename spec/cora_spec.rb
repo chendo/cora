@@ -19,6 +19,15 @@ describe Cora do
         say "Sending message to #{receipent}"
       end
 
+      listen_for /ask twice/ do
+        answer = ask "Question 1"
+        say "You said: #{answer}"
+        answer = ask "Question 2"
+        say "You said: #{answer}"
+        answer = ask "Question 3"
+        say "You said: #{answer}"
+      end
+
       listen_for /bar/, within_state: :waiting_for_bar do
         say "bar get"
       end
@@ -109,6 +118,22 @@ describe Cora do
         subject.process("send message")
         subject.should_receive(:respond).with("Sending message to chendo")
         subject.process("chendo")
+      end
+
+      it "can ask multiple questions" do
+        subject.should_receive(:respond).with("Question 1", prompt_for_response: true)
+        subject.process("ask twice")
+
+        subject.should_receive(:respond).with("You said: Answer 1")
+        subject.should_receive(:respond).with("Question 2", prompt_for_response: true)
+        subject.process("Answer 1")
+
+        subject.should_receive(:respond).with("You said: Answer 2")
+        subject.should_receive(:respond).with("Question 3", prompt_for_response: true)
+        subject.process("Answer 2")
+
+        subject.should_receive(:respond).with("You said: Answer 3")
+        subject.process("Answer 3")
       end
 
     end
