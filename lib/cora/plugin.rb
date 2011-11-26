@@ -1,6 +1,10 @@
 require 'fiber'
 class Cora::Plugin
 
+  # These could use some more work
+  CONFIRM_REGEX = /yes|yeah|yep|ok|confirm|affirmative|indeed|engage/i
+  DENY_REGEX = /no|nope|nah|cacnel/i
+
   attr_accessor :manager, :match_data
   attr_reader :current_state
 
@@ -64,6 +68,13 @@ class Cora::Plugin
     end
 
     Fiber.yield
+  end
+
+  def confirm(question, unmatchedMessage= "I'm sorry, I didn't understand that.", &block)
+    while (response = ask(question)) && !((response =~ CONFIRM_REGEX) != nil || (response =~ DENY_REGEX) != nil)
+      say unmatchedMessage
+    end
+    instance_exec((response =~ CONFIRM_REGEX) != nil, &block)
   end
 
   def set_state(state)
