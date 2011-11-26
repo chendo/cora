@@ -12,6 +12,9 @@ class Cora
 
     if @callback
       log "Active callback found, resuming"
+
+      # We must set the active callback to nil first, otherwise
+      # multiple callbacks within one listen block won't work
       callback = @callback
       @callback = nil
       callback.call(text)
