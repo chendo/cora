@@ -125,22 +125,22 @@ describe Cora do
       it "can deny with deny responses" do
         subject.should_receive(:respond).with("Does confirm work?", prompt_for_response: true)
         subject.process("confirm something")
-        subject.should_receive(:respond).with("Canceled")
+        subject.should_receive(:respond).with("Cancelled")
         subject.process("No")
 
         subject.should_receive(:respond).with("Does confirm work?", prompt_for_response: true)
         subject.process("confirm something")
-        subject.should_receive(:respond).with("Canceled")
+        subject.should_receive(:respond).with("Cancelled")
         subject.process("Nah")
 
         subject.should_receive(:respond).with("Does confirm work?", prompt_for_response: true)
         subject.process("confirm something")
-        subject.should_receive(:respond).with("Canceled")
+        subject.should_receive(:respond).with("Cancelled")
         subject.process("Nope")
 
         subject.should_receive(:respond).with("Does confirm work?", prompt_for_response: true)
         subject.process("confirm something")
-        subject.should_receive(:respond).with("Canceled")
+        subject.should_receive(:respond).with("Cancelled")
         subject.process("No thanks")
       end
 
@@ -160,7 +160,7 @@ describe Cora do
         subject.should_receive(:respond).with("Confirmed").ordered
         subject.should_receive(:respond).with("And a second time?", prompt_for_response: true).ordered
         subject.process("Yes")
-        subject.should_receive(:respond).with("Canceled2").ordered
+        subject.should_receive(:respond).with("Cancelled2").ordered
         subject.should_receive(:respond).with("And a third time?", prompt_for_response: true).ordered
         subject.process("No")
         subject.should_receive(:respond).with("Confirmed3").ordered

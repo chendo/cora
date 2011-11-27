@@ -25,64 +25,50 @@ class TestPlugin < Cora::Plugin
   end
 
   listen_for /confirm something/ do
-    confirm "Does confirm work?" do |confirmed|
-      if confirmed
-        say "Confirmed"
-      else
-        say "Canceled"
-      end
+    if confirm "Does confirm work?"
+      say "Confirmed"
+    else
+      say "Cancelled"
     end
   end
 
   listen_for /confirm custom reprompt/ do
-    confirm "Does confirm work?", unmatched_message: "What you say!?" do |confirmed|
-      if confirmed
-        say "Confirmed"
-      else
-        say "Canceled"
-      end
+    if confirm "Does confirm work?", unmatched_message: "What you say!?"
+      say "Confirmed"
+    else
+      say "Cancelled"
     end
   end
 
 
   listen_for /nested confirm/ do
-    confirm "Does confirm work?" do |confirmed|
-      if confirmed
-        say "Confirmed"
-        confirm "What about inside itself?" do |confirmed2|
-          if confirmed2
-            say "Confirmed2"
-          else
-            say "Canceled2"
-          end
-        end
+    if confirm "Does confirm work?"
+      say "Confirmed"
+      if confirm "What about inside itself?"
+        say "Confirmed2"
       else
-        say "Canceled"
+        say "Cancelled2"
       end
+    else
+      say "Cancelled"
     end
   end
 
   listen_for /sequential confirm/ do
-    confirm "Does confirm work?" do |confirmed|
-      if confirmed
-        say "Confirmed"
-      else
-        say "Canceled"
-      end
+    if confirm "Does confirm work?"
+      say "Confirmed"
+    else
+      say "Cancelled"
     end
-    confirm "And a second time?" do |confirmed|
-      if confirmed
-        say "Confirmed2"
-      else
-        say "Canceled2"
-      end
+    if confirm "And a second time?"
+      say "Confirmed2"
+    else
+      say "Cancelled2"
     end
-    confirm "And a third time?" do |confirmed|
-      if confirmed
-        say "Confirmed3"
-      else
-        say "Canceled3"
-      end
+    if confirm "And a third time?"
+      say "Confirmed3"
+    else
+      say "Cancelled3"
     end
   end
 

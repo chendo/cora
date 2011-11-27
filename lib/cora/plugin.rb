@@ -71,10 +71,15 @@ class Cora::Plugin
   end
 
   def confirm(question, options = {unmatched_message: "I'm sorry, I didn't understand that."}, &block)
-    while (response = ask(question)) && !((response =~ CONFIRM_REGEX) != nil || (response =~ DENY_REGEX) != nil)
-      say options[:unmatched_message]
+    while (response = ask(question))
+      if response.match(CONFIRM_REGEX)
+        return true
+      elsif response.match(DENY_REGEX)
+        return false
+      else
+        say options[:unmatched_message]
+      end
     end
-    instance_exec((response =~ CONFIRM_REGEX) != nil, &block)
   end
 
   def set_state(state)
