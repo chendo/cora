@@ -70,9 +70,9 @@ class Cora::Plugin
     Fiber.yield
   end
 
-  def confirm(question, unmatchedMessage= "I'm sorry, I didn't understand that.", &block)
+  def confirm(question, options = {unmatched_message: "I'm sorry, I didn't understand that."}, &block)
     while (response = ask(question)) && !((response =~ CONFIRM_REGEX) != nil || (response =~ DENY_REGEX) != nil)
-      say unmatchedMessage
+      say options[:unmatched_message]
     end
     instance_exec((response =~ CONFIRM_REGEX) != nil, &block)
   end

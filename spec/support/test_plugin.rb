@@ -35,7 +35,7 @@ class TestPlugin < Cora::Plugin
   end
 
   listen_for /confirm custom reprompt/ do
-    confirm "Does confirm work?","What you say!?" do |confirmed|
+    confirm "Does confirm work?", unmatched_message: "What you say!?" do |confirmed|
       if confirmed
         say "Confirmed"
       else
