@@ -3,7 +3,7 @@ class Cora::Plugin
 
   # These could use some more work
   CONFIRM_REGEX = /yes|yeah|yep|ok|confirm|affirmative|indeed|engage/i
-  DENY_REGEX = /no|nope|nah|cacnel/i
+  DENY_REGEX = /no|nope|nah|cancel|negative/i
 
   attr_accessor :manager, :match_data
   attr_reader :current_state
