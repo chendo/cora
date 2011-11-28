@@ -1,7 +1,11 @@
 require 'fiber'
 class Cora::Plugin
 
-  attr_accessor :manager
+  # These could use some more work
+  CONFIRM_REGEX = /yes|yeah|yep|ok|confirm|affirmative|indeed|engage/i
+  DENY_REGEX = /no|nope|nah|cancel|negative/i
+
+  attr_accessor :manager, :match_data
   attr_reader :current_state
 
   class << self
@@ -32,6 +36,7 @@ class Cora::Plugin
           if entry[:within_state].include?(current_state)
             log "Matches, executing block"
 
+            self.match_data = match
             Fiber.new {
               instance_exec(*captures, &entry[:block])
             }.resume
@@ -63,6 +68,18 @@ class Cora::Plugin
     end
 
     Fiber.yield
+  end
+
+  def confirm(question, options = {unmatched_message: "I'm sorry, I didn't understand that."}, &block)
+    while (response = ask(question))
+      if response.match(CONFIRM_REGEX)
+        return true
+      elsif response.match(DENY_REGEX)
+        return false
+      else
+        say options[:unmatched_message]
+      end
+    end
   end
 
   def set_state(state)
