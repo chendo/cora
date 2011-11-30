@@ -53,16 +53,17 @@ class Cora::Plugin
     self.class.listeners
   end
 
-  def say(text)
+  def say(text, options={})
     log "Say: #{text}"
-    manager.respond(text)
+    manager.respond(text, options)
   end
 
-  def ask(question)
+  def ask(question, options={})
     log "Ask: #{question}"
 
     f = Fiber.current
-    manager.respond(question, prompt_for_response: true)
+    options[:prompt_for_response] = true
+    manager.respond(question, options)
     manager.set_callback do |text|
       f.resume(text)
     end
