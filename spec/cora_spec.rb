@@ -20,6 +20,13 @@ describe Cora do
       end
     end
 
+    context "say" do
+      it "responds to a say with options" do
+        subject.should_receive(:respond).with("test options", {option: "option"})
+        subject.process("options")
+      end
+    end
+
     context "multiple state" do
       it "doesn't respond to listeners that don't have the required state" do
         subject.should_receive(:no_matches)
@@ -96,6 +103,17 @@ describe Cora do
 
         subject.should_receive(:respond).with("You said: Answer 3", {})
         subject.process("Answer 3")
+      end
+      
+      it "can ask questions with options" do
+      	subject.should_receive(:respond).with("Question with option", {prompt_for_response: true, option: "option"})
+      	subject.process("ask option")
+      	subject.process("plamoni")
+      	
+      	random_num = rand(1000000)
+      	subject.should_receive(:respond).with("Question with option", {prompt_for_response: true, option: random_num})
+      	subject.process("ask option #{random_num}")
+      	subject.process("plamoni")
       end
     end
 

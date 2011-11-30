@@ -4,6 +4,10 @@ class TestPlugin < Cora::Plugin
   listen_for /test/ do
     say "test!"
   end
+  
+  listen_for /^options$/ do
+    say "test options", {option: "option"}
+  end
 
   listen_for /^foo$/ do
     say "foo"
@@ -22,6 +26,12 @@ class TestPlugin < Cora::Plugin
     say "You said: #{answer}"
     answer = ask "Question 3"
     say "You said: #{answer}"
+  end
+  
+  listen_for /ask option[ ]?([0-9]*)/ do |numeric_option|
+    opt = "option"
+    opt = numeric_option.to_i if not numeric_option.empty?
+    answer = ask "Question with option", {option: opt}
   end
 
   listen_for /confirm something/ do
