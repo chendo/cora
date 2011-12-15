@@ -1,4 +1,6 @@
 require 'fiber'
+require 'forwardable'
+
 class Cora::Plugin
 
   # These could use some more work
