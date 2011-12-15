@@ -1,7 +1,10 @@
 require "cora/version"
 require "cora/plugin"
+require "cora/location"
 
 class Cora
+
+  attr_reader :location
 
   def plugins
     @plugins ||= []
@@ -47,6 +50,10 @@ class Cora
 
   def set_active_fiber(fiber)
     @fiber = fiber
+  end
+
+  def set_location(latitude, longitude, extra = {})
+    @location = Location.new(latitude, longitude, extra)
   end
 
   def log(text)

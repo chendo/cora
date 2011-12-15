@@ -5,6 +5,10 @@ class Cora::Plugin
   CONFIRM_REGEX = /yes|yeah|yep|ok|confirm|affirmative|indeed|engage/i
   DENY_REGEX = /no|nope|nah|cancel|negative/i
 
+  extend Forwardable
+
+  def_delegators :manager, :log, :location
+
   attr_accessor :manager, :match_data
   attr_reader :current_state
 
@@ -86,10 +90,6 @@ class Cora::Plugin
   def set_state(state)
     @current_state = state
     manager.set_priority_plugin(self)
-  end
-
-  def log(*args)
-    manager.log(*args)
   end
 
 end
