@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "guard-rspec"
   s.add_development_dependency "rake"
 
-  s.add_runtime_dependency "geocoder"
+  s.add_runtime_dependency "geocoder", "=1.1.6"
 
   s.files         = `git ls-files 2> /dev/null`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/* 2> /dev/null`.split("\n")
